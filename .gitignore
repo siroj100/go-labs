@@ -1,0 +1,13 @@
+# first ignore all files
+*
+
+# then add back the ONLY files that we want to commit
+!.gitignore
+!*/
+!*.go
+!go.mod
+# this might be not necessary if we restrict ourselves to using only built-in packages
+!go.sum
+
+# IDE files
+.idea
