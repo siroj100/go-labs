@@ -12,10 +12,10 @@ import (
 )
 
 const (
-	QListTables   = "SELECT table_name FROM information_schema.tables WHERE table_catalog=$1 AND table_schema=$2 ORDER BY table_name"
+	QListTables   = "SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_catalog=$1 AND table_schema=$2 ORDER BY table_name"
 	QListColumns  = "SELECT column_name FROM information_schema.columns WHERE table_catalog=$1 AND table_schema=$2 AND table_name=$3 ORDER BY ordinal_position"
 	QPKConstraint = "SELECT constraint_name FROM information_schema.table_constraints WHERE constraint_catalog=$1 AND constraint_schema=$2 AND constraint_type='PRIMARY KEY' AND table_name=$3"
-	QPKColumns    = "SELECT column_name FROM information_schema.key_column_usage WHERE constraint_catalog=$1 AND constraint_schema=$2 AND table_name=$3 ORDER BY ordinal_position"
+	QPKColumns    = "SELECT kcu.column_name FROM information_schema.table_constraints tc JOIN information_schema.key_column_usage kcu ON tc.table_schema=kcu.table_schema AND tc.constraint_name=kcu.constraint_name WHERE tc.table_catalog=$1 AND tc.table_schema=$2 AND tc.table_name=$3 AND tc.constraint_type='PRIMARY KEY' ORDER BY ordinal_position"
 )
 
 func main() {
